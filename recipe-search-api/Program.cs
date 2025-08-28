@@ -1,12 +1,14 @@
+using System.Formats.Tar;
 using System.Reflection;
-using Microsoft.OpenApi.Models;
-using RecipeApi.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using RecipeApi;
+using RecipeApi.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add builder.Services to the container.
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -26,19 +28,27 @@ builder.Services.AddSwaggerGen(opt =>
 
     //Can add filters here with opt.OperationFilter<FILTERCLASSHERE>();
 });
-
 builder.Services.AddDbContextPool<PostgresContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("pgServer"))
 );
 
+builder.Services.AddMediation();
+
 //look into adding health checks here to see if the db is online?
 
-builder.Services.AddMediation();
 var app = builder.Build();
-app.UseSwagger( opt =>
+app.UseSwagger(opt =>
 {
     opt.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
 });
 app.UseSwaggerUI();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PostgresContext>();
+    //TODO: Add a condition to only update databases in dev to prevent unintended updated prod
+    dbContext.Database.EnsureCreated();
+}
+
 app.Run();
