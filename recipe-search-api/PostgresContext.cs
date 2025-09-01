@@ -20,6 +20,8 @@ public partial class PostgresContext : DbContext
 
     public virtual DbSet<WordToRecipe> WordToRecipes { get; set; }
 
+    public virtual DbSet<StopWord> StopWords { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ingredient>(entity =>
@@ -75,6 +77,19 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.recipeId).HasColumnName("recipe_id");
             entity.Property(e => e.wordId).HasColumnName("word_id");
+            entity.Property(e => e.count).HasColumnName("count");
+        });
+
+        modelBuilder.Entity<StopWord>(entity =>
+        {
+            entity.ToTable("stop_word");
+
+            entity
+                .Property(e => e.ID)
+                .ValueGeneratedOnAdd()
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
+            entity.Property(e => e.word).HasColumnName("word");
         });
 
         OnModelCreatingPartial(modelBuilder);

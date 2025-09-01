@@ -11,6 +11,8 @@ public class WordToRecipe
 
     public int? recipeId { get; set; }
 
+    public int? count { get; set; }
+
     public Recipe recipe { get; set; }
 
     public KeyWord keyWord { get; set; }
