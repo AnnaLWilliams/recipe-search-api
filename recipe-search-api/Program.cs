@@ -28,8 +28,9 @@ builder.Services.AddSwaggerGen(opt =>
 
     //Can add filters here with opt.OperationFilter<FILTERCLASSHERE>();
 });
-builder.Services.AddDbContextPool<PostgresContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("pgServer"))
+builder.Services.AddDbContextPool<PostgresContext>(
+    opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("pgServer")),
+    poolSize: 64
 );
 
 builder.Services.AddMediation();

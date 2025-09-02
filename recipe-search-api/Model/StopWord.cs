@@ -8,5 +8,5 @@ public class StopWord
 {
     public int ID { get; set; }
 
-    public string? word { get; set; }
+    public string? Word { get; set; }
 }

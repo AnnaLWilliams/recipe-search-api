@@ -7,14 +7,14 @@ public class Recipe
 {
     public int ID { get; set; }
 
-    public string? name { get; set; }
+    public string? Name { get; set; }
 
-    public string? description { get; set; }
+    public string? Description { get; set; }
 
-    public string? instructions { get; set; }
+    public string? Instructions { get; set; }
 
-    public string? location { get; set; }
+    public string? Location { get; set; }
 
-    public List<Ingredient> ingredients { get; set; }
-    public List<WordToRecipe> wordToRecipes { get; set; }
+    public List<Ingredient> Ingredients { get; set; }
+    public List<KeyWord> KeyWords { get; set; }
 }

@@ -7,13 +7,9 @@ public class WordToRecipe
 {
     public int ID { get; set; }
 
-    public int? wordId { get; set; }
-
-    public int? recipeId { get; set; }
-
-    public int? count { get; set; }
-
-    public Recipe recipe { get; set; }
-
-    public KeyWord keyWord { get; set; }
+    public int? WordID { get; set; }
+    public KeyWord KeyWord { get; set; }
+    public int? RecipeID { get; set; }
+    public Recipe Recipe { get; set; }
+    public int? Count { get; set; }
 }

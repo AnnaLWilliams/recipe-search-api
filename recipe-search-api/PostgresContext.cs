@@ -28,15 +28,15 @@ public partial class PostgresContext : DbContext
         {
             entity.ToTable("ingredient");
 
-            entity.Property(e => e.amount).HasColumnName("amount");
+            entity.Property(e => e.Amount).HasColumnName("amount");
             entity
                 .Property(e => e.ID)
                 .ValueGeneratedOnAdd()
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.name).HasColumnName("name");
-            entity.Property(e => e.recipeId).HasColumnName("recipe_id");
-            entity.Property(e => e.unit).HasColumnName("unit");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.RecipeID).HasColumnName("recipe_id");
+            entity.Property(e => e.Unit).HasColumnName("unit");
         });
 
         modelBuilder.Entity<KeyWord>(entity =>
@@ -48,22 +48,22 @@ public partial class PostgresContext : DbContext
                 .ValueGeneratedOnAdd()
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.word).HasColumnName("word");
+            entity.Property(e => e.Word).HasColumnName("word");
         });
 
         modelBuilder.Entity<Recipe>(entity =>
         {
             entity.ToTable("recipe");
 
-            entity.Property(e => e.description).HasColumnName("description");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity
                 .Property(e => e.ID)
                 .ValueGeneratedOnAdd()
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.instructions).HasColumnName("instructions");
-            entity.Property(e => e.location).HasColumnName("location");
-            entity.Property(e => e.name).HasColumnName("name");
+            entity.Property(e => e.Instructions).HasColumnName("instructions");
+            entity.Property(e => e.Location).HasColumnName("location");
+            entity.Property(e => e.Name).HasColumnName("name");
         });
 
         modelBuilder.Entity<WordToRecipe>(entity =>
@@ -75,9 +75,9 @@ public partial class PostgresContext : DbContext
                 .ValueGeneratedOnAdd()
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.recipeId).HasColumnName("recipe_id");
-            entity.Property(e => e.wordId).HasColumnName("word_id");
-            entity.Property(e => e.count).HasColumnName("count");
+            entity.Property(e => e.RecipeID).HasColumnName("recipe_id");
+            entity.Property(e => e.WordID).HasColumnName("word_id");
+            entity.Property(e => e.Count).HasColumnName("count");
         });
 
         modelBuilder.Entity<StopWord>(entity =>
@@ -89,7 +89,7 @@ public partial class PostgresContext : DbContext
                 .ValueGeneratedOnAdd()
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.word).HasColumnName("word");
+            entity.Property(e => e.Word).HasColumnName("word");
         });
 
         OnModelCreatingPartial(modelBuilder);

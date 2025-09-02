@@ -8,7 +8,7 @@ public class KeyWord
 {
     public int ID { get; set; }
 
-    public string? word { get; set; }
+    public string? Word { get; set; }
 
-    public List<WordToRecipe> wordToRecipes { get; set; }
+    public List<Recipe> Recipes { get; set; }
 }

@@ -8,13 +8,12 @@ public class Ingredient
 {
     public int ID { get; set; }
 
-    public int? recipeId { get; set; }
+    public int? RecipeID { get; set; }
+    public Recipe Recipe { get; set; }
+    public string? Name { get; set; }
 
-    public string? name { get; set; }
+    public float? Amount { get; set; }
 
-    public float? amount { get; set; }
+    public string? Unit { get; set; }
 
-    public string? unit { get; set; }
-
-    public Recipe recipe { get; set; }
 }

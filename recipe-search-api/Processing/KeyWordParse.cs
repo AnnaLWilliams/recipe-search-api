@@ -1,6 +1,7 @@
 using System.Data.Common;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.VisualBasic;
 using Npgsql;
@@ -9,7 +10,10 @@ namespace RecipeApi.Processing;
 
 public static class KeyWordParse
 {
-    public static async Task<Dictionary<string, int>> ParseKeyWords(string toParse, DbDataSource db)
+    public static async Task<Dictionary<string, int>> ParseKeyWords(
+        string toParse,
+        PostgresContext db
+    )
     {
         var getWords = @"\w+";
         var wordCount = new Dictionary<string, int>();
@@ -38,17 +42,8 @@ public static class KeyWordParse
         return wordCount;
     }
 
-    private static async Task<List<string>> GetStopWords(DbDataSource db)
+    private static async Task<List<string?>> GetStopWords(PostgresContext db)
     {
-        var stopWords = new List<string>();
-        var cmd = db.CreateCommand("SELECT word FROM stop_word");
-        var reader = await cmd.ExecuteReaderAsync();
-
-        while (await reader.ReadAsync())
-        {
-            stopWords.Add(reader.GetString(0));
-        }
-
-        return stopWords;
+        return await db.StopWords.Select(r => r.Word).ToListAsync();
     }
 }
