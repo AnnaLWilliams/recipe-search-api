@@ -1,0 +1,105 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build"
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build: debug",
+			"dependsOn": [
+				"dotnet: build"
+			],
+			"dockerBuild": {
+				"tag": "recipesearchapi:dev",
+				"target": "base",
+				"dockerfile": "${workspaceFolder}/recipe-search-api/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/recipe-search-api/recipe-search-api.csproj"
+			}
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build: release",
+			"dependsOn": [
+				"dotnet: build"
+			],
+			"dockerBuild": {
+				"tag": "recipesearchapi:latest",
+				"dockerfile": "${workspaceFolder}/recipe-search-api/Dockerfile",
+				"context": "${workspaceFolder}",
+				"platform": {
+					"os": "linux",
+					"architecture": "amd64"
+				},
+				"pull": true
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/recipe-search-api/recipe-search-api.csproj"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "docker-compose: up recipe_db",
+			"command": "docker-compose",
+			"args": ["-f", "compose.debug.yaml", "up", "-d", "recipe_db", "pgadmin"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "docker-compose: down",
+			"command": "docker-compose",
+			"args": ["-f", "compose.debug.yaml", "down"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: debug",
+			"dependsOn": [
+				"docker-build: debug",
+				"docker-compose: up recipe_db"
+			],
+			"dockerRun": {
+				"os": "Linux"
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/recipe-search-api/recipe-search-api.csproj",
+				"enableDebugging": true
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: release",
+			"dependsOn": [
+				"docker-build: release"
+			],
+			"dockerRun": {
+				"os": "Linux"
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/recipe-search-api/recipe-search-api.csproj"
+			}
+		}
+	]
+}
